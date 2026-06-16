@@ -28,9 +28,17 @@ app.get("/", (req, res) => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-  user: process.env.EMAIL_USER,
-  pass: process.env.EMAIL_PASS,
-},
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+transporter.verify(function (error, success) {
+  if (error) {
+    console.log("Email Config Error:", error);
+  } else {
+    console.log("Email Server is Ready ✅");
+  }
 });
 
 /* ---------------- SIGNUP API ---------------- */
@@ -104,32 +112,38 @@ app.post("/register", async (req, res) => {
           });
         }
 
-        try {
-          await transporter.sendMail({
-            from: "anmolshikhar2323@gmail.com",
-            to: email,
-            subject: "Little Office Account Created",
+   try {
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Little Office Account Created",
 
-            html: `
-              <h2>Welcome to Little Office 🎉</h2>
+    html: `
+      <h2>Welcome to Little Office 🎉</h2>
 
-              <p>Your account has been created successfully.</p>
+      <p>Your account has been created successfully.</p>
 
-              <h3>User ID: ${userId}</h3>
+      <h3>User ID: ${userId}</h3>
 
-              <h3>Password: ${password}</h3>
+      <h3>Password: ${password}</h3>
 
-              <p>
-                Keep these credentials safe.
-              </p>
-            `,
-          });
+      <p>
+        Keep these credentials safe.
+      </p>
+    `,
+  });
 
-          res.json({
-            success: true,
-            message: "Account Created",
-          });
-        } catch (emailError) {
+  console.log("Email Sent Successfully ✅");
+
+  res.json({
+    success: true,
+    message: "Account Created",
+  });
+
+} catch (emailError) {
+
+  console.log("Email Error:", emailError);
+
   res.status(500).json({
     success: false,
     message: "Email sending failed",
