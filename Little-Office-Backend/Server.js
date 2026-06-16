@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import nodemailer from "nodemailer";
 import connection from "./db.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -26,9 +28,9 @@ app.get("/", (req, res) => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "anmolshikhar2323@gmail.com",
-    pass: "rvqumcxxxjvojwoa",
-  },
+  user: process.env.EMAIL_USER,
+  pass: process.env.EMAIL_PASS,
+},
 });
 
 /* ---------------- SIGNUP API ---------------- */
@@ -325,9 +327,11 @@ app.get("/user-stats/:userId", (req, res) => {
 });
 /* ---------------- SERVER ---------------- */
 
-app.listen(5000, () => {
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
   console.log(
-    "Server started on port 5000 🚀"
+    `Server started on port ${PORT} 🚀`
   );
 });
 
