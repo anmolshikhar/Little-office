@@ -18,7 +18,7 @@ function Signup() {
 
     try {
       const res = await fetch(
-        "http://localhost:5000/register",
+        "https://little-office-backend.onrender.com/register",
         {
           method: "POST",
           headers: {

@@ -24,7 +24,7 @@ function Header() {
     if (userId !== "N/A") {
 
       fetch(
-        `http://localhost:5000/user-stats/${userId}`
+       `https://little-office-backend.onrender.com/user-stats/${userId}`
       )
         .then((res) => res.json())
         .then((data) => {

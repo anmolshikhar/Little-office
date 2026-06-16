@@ -11,7 +11,7 @@ function Login() {
 
   const checkId = async () => {
     try {
-      const res = await fetch("http://localhost:5000/check-user", {
+      const res = await fetch("https://little-office-backend.onrender.com/check-user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
