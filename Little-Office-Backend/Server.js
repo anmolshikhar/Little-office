@@ -26,19 +26,16 @@ app.get("/", (req, res) => {
 /* ---------------- EMAIL CONFIG ---------------- */
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // 587 के लिए false
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-});
-
-transporter.verify(function (error, success) {
-  if (error) {
-    console.log("Email Config Error:", error);
-  } else {
-    console.log("Email Server is Ready ✅");
-  }
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
 
 /* ---------------- SIGNUP API ---------------- */
